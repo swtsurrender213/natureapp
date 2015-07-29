@@ -1,6 +1,7 @@
 <?php 
 include ("connect_db.php");
 
+
  function check_login_form_error()
  {
 	$error="";
@@ -67,6 +68,7 @@ function show_login_form($error="")
 		Pet's Name <input type="text" name="Pname" placeholder="Pet's Name"><br>
 		Pet Breed <input type="text" name="breed" placeholder="Pet's Breed"><br>
 		Pet's Age <input type="text" name="Page" placeholder="Pet's Age">
+		
 		<input type="hidden" name="ownerId" value="<?php echo $ownerId; ?>" >
 		
 		<br><button type="submit" name="submit">Post</button>
@@ -100,12 +102,14 @@ function show_login_form($error="")
 	 
  } // end of check addpet form error
  ?>
+ 
  <?php
  function show_owner_form($error="")
 { ?>
 
 <div class="row">
 <div class="large-6 large-centered columns">
+
 <form style="padding-top:80px;" method="POST" action="owner.php">
 		Owner's Name: <input type="text" name="OName" placeholder="Owner's Name"><br>
 		<br><button type="submit" name="submit">Add Owner</button>
@@ -227,11 +231,19 @@ echo'</select>';
 	 
  } // end of check addhistory form error
  
- function show_pro_form($error="")
+ function show_pro_form($con, $error="")
 { ?>
 
 <div class="row">
+
 <div class="large-6 large-centered columns">
+
+<div class="proced" style="color:white; font-size:50px; text-align:center; 
+font-weight: bold; border-style: solid;  border-width: medium;">
+<?php get_update($con); 
+
+?>
+</div>
 <form style="padding-top:80px;" method="POST" action="procedures.php">
 		Procedure: <input type="text" name="pname" placeholder="Procedure"><br>
 		<br><button type="submit" name="submit">Add Procedure</button>
@@ -241,4 +253,49 @@ echo'</select>';
 	
 
  <?php } // end of pro form 
+function show_pet_update_form($con, $error="")
+{
+	
+$sql5='SELECT * FROM pets WHERE petId='.$_GET["petId"];
+$result5=mysqli_query($con,$sql5) or die(mysqli_error($con));
+$row=mysqli_fetch_assoc($result5);
+
+
+
+?>
+<div class="row">
+
+<div class="large-6 large-centered columns">
+
+<form style="padding-top:80px;" method="POST" action="petupdate.php">
+		Pet's Name: <input value="<?php echo $row["petsname"];?>" type="text" name="Pname" placeholder="Pet's Name"><br>
+		Pet's Breed: <input value="<?php echo $row["petType"];?>" type="text" name="typE" placeholder="Pet's Breed"><br>
+		Pet's Age: <input value="<?php echo $row["petage"];?>" type="text" name="age" placeholder="Pet's Age"><br>
+		<input type="hidden" name="petId" value="<?php echo $_GET["petId"];?>">
+		
+		<br><button type="submit" name="submit">UPDATE</button>
+	</form>
+		</div>
+		</div>
+	
+
+ <?php } // end of pet_update form 
+ 
+   function check_pet_update_form_error()
+ {
+	$error="";
+	
+	if(empty($_POST["Pname"])){
+		$error .="Please enter Pet's name<br>";
+	}	
+	if(empty($_POST["typE"])){
+		$error .="Please enter the breed of the pet<br>";
+	}
+	if(empty($_POST["age"])){
+		$error .="Please enter the age of the pet<br>";
+	} 
+	 
+	 return $error;
+	 
+ }//end of pet_update
  ?>

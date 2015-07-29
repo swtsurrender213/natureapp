@@ -25,14 +25,8 @@ if(isset($_POST["submit"])){
 //first time to sign up
 else{
 show_login_form();	
-}?>
- <div class="code" style="margin-left:700px;">
-	   <p style="margin-top:80px;"><a href="">Terms of Service</a> - <a href="">Privacy Policy</a> - <a href="">Contact</a> - <a href="">About</a></p>
-	   </div>
-	   <div class="copyright"style="margin-left:700px;">
-	   <p style="color:white; margin-top:15px; font-size:13px;">Copyright © 2015 Natureoftomorrow health Co.. All rights reserved. Powered by TKN Production</p>
-	   </div>
+}
 
-<?php
+
 include("footer.php");
 ?>

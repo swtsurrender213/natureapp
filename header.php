@@ -65,7 +65,7 @@ body
 	   <a href="http://localhost/natureoftomorrow/images/pet2.png"><img src="http://localhost/natureoftomorrow/images/pet2.png"></a>
 	   </div>
 	   <div class="welcome-user">
-	   <a href="http://localhost/nextK/index.php"><img src="http://localhost/natureoftomorrow/images/pet3.jpg"></a>
+	   <a href="http://localhost/natureoftomorrow/images/pet3.jpg"><img src="http://localhost/natureoftomorrow/images/pet3.jpg"></a>
 	   
 	   </div><!-- end of user-->
 	   

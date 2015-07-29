@@ -1,22 +1,51 @@
 <?php
-function get_owners($con){
+function get_owners($con){?>
+	<div class="large-6 large-centered columns">
 	
+	<?php
+	if(isset($_GET["edit"])){
+		echo '<div style="max-width:200px;  float:left;"><div data-alert class="alert-box success radius"><a href="#" class="close">&times;</a>
+  Successful updated!.
+</div></div>';
 		
-		//if(isset($_GET["userposts"])){
+	}
+	if(isset($_GET["addpet"])){
+		echo '<div style="max-width:200px;  float:left;"><div data-alert class="alert-box success radius"><a href="#" class="close">&times;</a>
+  Successful added!.
+</div></div>';
+	}
+
+if(isset($_GET["ownerId"])){
+		echo '<div style="max-width:200px;  float:left;"><div data-alert class="alert-box success radius"><a href="#" class="close">&times;</a>
+  Successful added!.
+</div></div>';
+}
+
+if(isset($_GET["petId"])){
+		echo '<div style="max-width:200px;  float:left;"><div data-alert class="alert-box success radius"><a href="#" class="close">&times;</a>
+  Successful added!.
+</div></div>';
+	}
+	?>
+	</div>
+	<?php
 		$sql="SELECT * FROM owners";
 		//if no second perimeter in passed into the function select all posts 	
 		
 		$result=mysqli_query($con,$sql) or die(mysqli_error($con));
 		
 		
-		?>
+	?>
 		<div class="row">
+		
 		<div class="large-6 large-centered columns">
 		<?php
-		
+	
 		//success messages
 		//outer loop getting the owners
-	echo '<div style="position:relative; margin-top:80px;" class="panel" >';
+		
+	echo '<div style="position:relative; margin-top:80px; opacity:0.8;" class="panel" >';
+	
 		while($row=mysqli_fetch_assoc($result)){
 			
 			$ownerid=$row["ownerId"];
@@ -39,21 +68,19 @@ function get_owners($con){
 				$petid=$row2["petId"];
 				
 				echo  '<p><strong>Pets Name:</strong> &nbsp'.$row2["petsname"].'<br>';
-				echo '<p><a href="petvisit.php?petId='.$petid.'"><img width="40" height="40" src="/natureoftomorrow/images/info.gif" alt="photo">History</a>';
-				echo '&nbsp &nbsp<a href="addhistory.php?petId='.$petid.'"><button>Add History</button></a>';
+				echo  '<p><strong>Pets Breed:</strong> &nbsp'.$row2["petType"].'<br>';
+				echo  '<p><strong>Pets Age:</strong> &nbsp'.$row2["petage"].'</p>';
+				echo '<p><a href="petvisit.php?petId='.$petid.'"><img width="80" height="80" src="/natureoftomorrow/images/history.png" alt="photo"></a>';
+				echo '&nbsp &nbsp<a onclick="'."return confirm('Are you sure to add to this History at this time?');"
+		.'" href="addhistory.php?petId='.$petid.'"><img width="80" height="80" src="/natureoftomorrow/images/addhistory.png" alt="photo1"></a>';
 		echo '&nbsp <a onclick="'."return confirm('Are you sure to Delete this History at this time?');"
-		.'" href="delete-pet.php?petId='.$petid.'"><img width="70" height="70" src="/natureoftomorrow/images/deleteb.png" alt="photo"></a></p>';
-		
-		//function pet_update (){
-			// $sql='UPDATE petsvisit SET petId='.$petId. ' WHERE proId='.$proId.'';
-			 
-			
-			
-		
+		.'" href="delete-pet.php?petId='.$petid.'"><img width="80" height="80" src="/natureoftomorrow/images/deleteb.png" alt="photo"></a></p>';
+		echo '<a href="petupdate.php?petId='.$petid.'"><button>Update</button></a>';
 			echo '<hr>';
 				
 			}//end of inner loop
-			echo '<a href="addpet.php?ownerId='.$ownerid.'"><button>Add Pet</button></a>';
+			echo '<a onclick="'."return confirm('Are you sure to add to this History at this time?');"
+		.'" href="addpet.php?ownerId='.$ownerid.'"><button>Add Pet</button></a>';
 			echo '<hr>';
 		} // end outer loop
 		?>
@@ -65,6 +92,39 @@ function get_owners($con){
 	}// end get post
 // Alerts users actions
 // type= successon or failure
+		
+function pet_update ($con){
+	
+	$petsname=$_POST["Pname"];
+	$petType=$_POST["typE"];
+	$petage=$_POST["age"];
+	$petId=$_POST["petId"];
+	
+	 $sql6="UPDATE pets SET petsname='$petsname', petType='$petType' , petage=$petage WHERE petId=".$petId;
+	 
+	 
+	 
+mysqli_query($con,$sql6) or die(mysqli_error($con));
+
+header('Location:http://localhost/natureoftomorrow/index.php?edit=1');
+
+}
+
+
+function get_update($con){
+	
+	$sql4="SELECT * FROM procedures";	
+	$result4=mysqli_query($con,$sql4) or die(mysqli_error($con));
+
+	while($row=mysqli_fetch_assoc($result4)){
+			
+			$proced=$row["proced"];
+			
+			 
+				echo  '<p><strong>'.$row["proced"].'</strong></p>';
+}
+}
+
 function alert_user($type, $message){
 	
 	if($type=="success"){
@@ -106,7 +166,7 @@ function add_pet($con){
 		// run the query
 		$result=mysqli_query($con,$sql) or die($mysqli_error($con));
 		//redirect
-		header('Location: http://localhost/natureoftomorrow/index.php?addpet=1=&userposts=1');
+		header('Location: http://localhost/natureoftomorrow/index.php?addpet=1');
 }
 
 function add_history($con,$petId,$proId){
@@ -137,7 +197,7 @@ function add_pro($con){
 		// run the query
 		mysqli_query($con,$sql) or die(mysqli_error($con));
 		// add user 
-		header('Location: http://localhost/natureoftomorrow/index.php?ownerId='.$ownerId.'');
+		header('Location: http://localhost/natureoftomorrow/procedures.php?add=1');
 	
 }// end of add owner
 // delete post functions
@@ -149,6 +209,14 @@ function delete_pet($con){
 		// execute query
 		mysqli_query($con,$sql) or die(mysqli_error($con));
 } // end of delete post
+
+function delete_pro($con){
+
+		// sql query statement
+		$sql='DELETE FROM `procedures` where proced='.$_GET["proced"];
+		// execute query
+		mysqli_query($con,$sql) or die(mysqli_error($con));
+} // end of delete procedure
 ?>
 <?php
 
@@ -169,20 +237,20 @@ function get_nav_li(){
 		//pagename is index
 			if(isset($_GET["userposts"]))
 		{
-			echo  '<li><a href="index.php">Owners</a></li>';
+			echo  '<li><a href="index.php">History</a></li>';
 			echo '<li><a href="owner.php">Add Owners</a></li>';
 			echo '<li class="active"><a href="procedures.php">Procedures</a></li>';
 		} // end of userposts
 	
 		else 
 		{
-			echo  '<li class="active"><a href="index.php">Owners</a></li>';
+			echo  '<li class="active"><a href="index.php">History</a></li>';
 			echo '<li><a href="owner.php">Add Owners</a></li>';
 			echo '<li><a href="procedures.php">Procedures</a></li>';
 		}
 	}//end of index
 	
-	}
+}
 	
 	 } // end end of get nav li
 
@@ -215,6 +283,7 @@ $sql3="SELECT * FROM `petsvisit` where petId='".$petId."'";
 
 
 $result=mysqli_query($con,$sql3) or die(mysqli_error($con));
+	
 ?>
 		<div class="row">
 		<div class="large-6 large-centered columns">
@@ -257,12 +326,12 @@ echo '<div style="position:relative;" class="panel">';
 function goBack() {
     window.history.back();
 }
+
 </script>
 <?php
 		}
-
-}
-	 ?>
-	 </div>
+	}
+	?>	
+</div>
 </div>
 </div>

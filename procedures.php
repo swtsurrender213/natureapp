@@ -1,6 +1,6 @@
 <?php
 include ("header.php");
-
+//if(isset($_GET["add"]))
 
 
 //if the form has submitted
@@ -13,13 +13,13 @@ if(isset($_POST["submit"])){
 		
 	}	
 	else{
-		show_pro_form($error);
-	
+		show_pro_form($con, $error);
+		
 	}
 } // end of submit
 //first time to sign up
 else{
-show_pro_form();	
+show_pro_form($con);	
 }
 
 include ("footer.php");
