@@ -21,11 +21,13 @@ if(isset($_GET["ownerId"])){
 </div></div>';
 }
 
-if(isset($_GET["petId"])){
+
+	
+if(isset($_GET["deleted"])){
 		echo '<div style="max-width:200px;  float:left;"><div data-alert class="alert-box success radius"><a href="#" class="close">&times;</a>
-  Successful added!.
+  Successful updated!.
 </div></div>';
-	}
+}
 	?>
 	</div>
 	<?php
@@ -174,7 +176,7 @@ function add_history($con,$petId,$proId){
 		
 		$sql='INSERT INTO petsvisit (proId, petId) VALUES ("'.$proId.'" , "'.$petId.'")';
 		mysqli_query($con,$sql) or die($mysqli_error($con));
-		header('Location:http://localhost/natureoftomorrow/petvisit.php?petId='.$petId.'');
+		header('Location:http://localhost/natureoftomorrow/petvisit.php?petId='.$petId.'&addhistory=1');
 		
 } // end of add history
 
@@ -226,7 +228,7 @@ function get_nav_li(){
 	
 	if(isset($_SESSION["username"])) {
 		//pagename is addpost
-		if($pagename=="addOwner"){
+		if($pagename=="Owner"){
 		echo  '<li><a href="index.php">History</a></li>';
 			echo '<li class="active"><a href="owner.php">Add Owners</a></li>';	
 			echo '<li><a href="procedures.php">Procedures</a></li>';
@@ -235,12 +237,12 @@ function get_nav_li(){
 		}
 	else {
 		//pagename is index
-			if(isset($_GET["userposts"]))
+			if(isset($_GET["Procedures"]))
 		{
 			echo  '<li><a href="index.php">History</a></li>';
 			echo '<li><a href="owner.php">Add Owners</a></li>';
 			echo '<li class="active"><a href="procedures.php">Procedures</a></li>';
-		} // end of userposts
+		} // end of Procedures
 	
 		else 
 		{
@@ -275,6 +277,12 @@ function get_nav_li(){
 	 
 	
 	function get_visit($con) {
+		
+if(isset($_GET["addhistory"])){
+		echo '<div style="max-width:200px;  float:left;"><div data-alert class="alert-box success radius"><a href="#" class="close">&times;</a>
+  Successful added!.
+</div></div>';
+	}
 		
 		$petId=$_GET["petId"];
 		
